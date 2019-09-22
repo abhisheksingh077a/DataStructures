@@ -144,6 +144,28 @@ class SList
         return 0;
         }
 
+//member function to add a name after a name
+        int insertAfter(std::string name, std::string Iname)
+        {
+            m_temp = m_head;
+            while(m_temp != nullptr)
+            {
+                if(m_temp->name == name)
+                {
+                    std::cout << "\n Inserting after name " << name;
+                    Node* newNode = new Node;
+                    newNode->name = Iname;
+                    newNode->next = m_temp->next;
+                    m_temp->next = newNode;
+                    return 0;
+                }
+                else
+                    m_temp = m_temp->next;
+            }
+            std::cout << "\n Couldnt found name: " << name << "\n";
+            return 0;
+        }
+
 // destructor for class
         ~SList()
         {
@@ -165,7 +187,9 @@ void printMenu()
     std::cout << "\n  4: print list \n";
     std::cout << "\n  5: delete list \n";
     std::cout << "\n  6: print menu \n";
-    std::cout << "\n  7: exit \n";
+    std::cout << "\n  7: Insert name after a name \n";
+    std::cout << "\n  8: exit \n";
+
 }
 
 int main()
@@ -177,6 +201,7 @@ while(1)
    int choice;
    std::cout << "\n\n\n\n\t\t Enter choice: ";
    std::cin >> choice;
+   std::string Iname;
    std::string name;
     switch(choice)
     {
@@ -203,6 +228,13 @@ while(1)
             break;
         case 6:
             printMenu();
+            break;
+        case 7:
+            std::cout << "\n Enter name to insert after: ";
+            std::cin >> name;
+            std::cout << "\n Enter name to insert: ";
+            std::cin >> Iname;
+            names.insertAfter(name, Iname);
             break;
         default:
             std::cout << "\n You have not choosen any work to do !";
