@@ -1,0 +1,117 @@
+#include <iostream>
+#include <string>
+
+using namespace std; 
+struct Node
+{
+    string name;
+    Node *next;
+};
+
+class Queue
+{
+    private:
+        Node *head;
+        Node *tail;
+
+    public:
+        Queue()
+        {
+            head = tail = nullptr;
+        }
+
+        Queue(string name)
+        {
+            head = tail = createNode(name);
+        }
+
+        Node* createNode(string name)
+        {
+            Node *newnode = new Node;
+            newnode->name = name;
+            newnode->next = nullptr;
+        return newnode;
+        }
+
+        void printQueue()
+        {
+            Node *current = head;
+            if(current == nullptr)
+                cout << "\nList is empty";
+            
+            else
+            {
+            cout << "\n";
+                while(current != nullptr)
+                {
+                    cout << current->name << " -- ";
+                    current = current->next;
+                }
+            cout << "\n";
+            }
+        }
+
+        string dequeue()
+        {
+            string name = "";
+            if(head == nullptr)
+                cout << "\nQueue is empty !";
+            
+            else
+            {
+                Node *current = head;
+                head = head->next;
+                name = current->name;
+                delete current;
+            }
+        return name;
+        }
+
+        void enqueue(string name)
+        {
+            if(tail == nullptr)
+                head = tail = createNode(name);
+            else
+            {
+                Node *current = createNode(name);
+                tail->next = current;
+                tail = tail->next;
+            }
+        }
+
+
+};
+
+int main()
+{
+    string name;
+    cout << "\nEnter the first name to start queue: ";
+    cin >> name;
+    Queue q1(name);
+    
+    int choice;
+    while(1)
+    {
+        cout << "\n\n1:enqueue, 2:dequeue, 3:exit \n";
+        cin >> choice;
+        switch(choice)
+        {
+            case 1: // enqueue 
+                cout << "\nEnter name to enque in queue: ";
+                cin >> name;
+                q1.enqueue(name);
+                q1.printQueue();
+                break;
+            case 2:
+                cout << "\nDequeued name: " << q1.dequeue();
+                cout << "\nQueue after dequeueing !\n";
+                q1.printQueue();
+                break;
+            case 3:
+                return 0;
+            default:
+                cout << "\nSelect a valid choice !";
+        }
+    }
+return 0;
+}
