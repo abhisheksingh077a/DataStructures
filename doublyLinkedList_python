@@ -1,0 +1,109 @@
+# creating node for the list
+class Node:
+    def __init__(self, name):
+        self.prev = None
+        self.name = name
+        self.next = None
+    
+# list and its functionalities
+class Dlist:
+    def __init__(self, name):
+        self.head = Node(name)  # head is a node type object
+        
+    def addtailnode(self, name):
+        if self.head == None:
+            self.head = Node(name)
+        else:
+            newnode = Node(name)
+            current = self.head
+            while(current.next != None):
+                current = current.next
+            current.next = newnode
+            newnode.prev = current
+    
+    def addheadnode(self, name):
+        if self.head == None:
+            self.head = Node(name)
+        else:
+            newnode = Node(name)
+            newnode.next = self.head
+            self.head.prev = newnode
+            self.head = newnode
+        
+    def printlist(self):
+        if self.head == None:
+            print("List is empty")
+        else:
+            print("\n\nList: ")
+            current = self.head
+            while current != None:
+                print(current.name, " -> ", end = " ")
+                current = current.next
+                
+    def findName(self, name):
+        if self.head == None:
+            print("\nList is empty !")
+        else:
+            current = self.head
+            while current.name != name:
+                if current.name == name:
+                    print("\nname found")
+                elif current.next == None:
+                    print("\nname is not in the list")
+                    return None
+                else:
+                    current = current.next
+            return current
+        
+    def deleteName(self, name):
+        current = self.findName(name)
+        if current != None:
+                if current.prev == None:
+                    self.head = self.head.next
+                    self.head.prev = None
+                elif current.next == None:
+                    current.prev.next = None
+                else:   
+                    current.prev.next = current.next
+                    current.next.prev = current.prev
+    
+    def pop(self):
+        if(self.head == None):
+            print("list is empty")
+        
+        elif self.head.next == None:
+            self.head = None
+        else:
+            current = self.head
+            while current.next != None:
+                current = current.next
+            current.prev.next = None
+            current = None
+            
+ if __name__ == "__main__":
+    name = input("enter a name to start list: ")
+    choice = 3
+    names = Dlist(name)
+    while(choice > 0 and choice < 9):
+        if choice == 1:
+            name = input("Enter the name: ")
+            names.addtailnode(name)
+        elif choice == 2:
+            name = input("Enter the name: ")
+            names.addheadnode(name)   
+        elif choice == 3:
+            names.printlist()
+        elif choice == 4:
+            name = input("Enter the name: ")
+            names.findName(name)
+        elif choice == 5:
+            name = input("Enter the name: ")
+            names.deleteName(name)
+        elif choice == 6:
+            names.pop()
+        else:
+            print("Not valid choice")
+        try:
+            choice = int(input("\n\n1:addtailnode, 2:addheadnode, 3:printlist, 4:findname, 5:deletename, 6:pop, :  "))
+        except ValueError:
+            choice = 3
